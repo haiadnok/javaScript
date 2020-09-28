@@ -1,0 +1,2172 @@
+x Date 15:00 17-08-2020
+ Angular data binding
+   string interpolation
+   one way data binding
+       event binming
+       property binding
+   two way data binding
+======================================================
+component to component intraction 
+ @input
+ @output
+ @viewchild
+ @viewchildren
+ @contentchild
+ @contentchildren
+======================================================
+Services
+======================================================
+modules
+=======================================================
+http methods
+  Angular curd operations
+======================================================
+Angular lifecycle hooks
+========================================================================================================================
+.) Angular string interpolation:-
+                              String interpolation and property binding both are about one way data binding.They bith flow a value in one 
+                              direction, data is binding from component to html page
+ex:-  <p>{{(rollNumber== 22) ? 'that candidate is major':(age==23)? "Applicable for voting":"not applicable for voting"}}</p>
+       rollNumber:number=23; age:number=23;
+        (condition)? 'if condition is true exicte this':'false this can exicute';
+string interpolation is a special syntax which is converted to property binding by angular.It's is convenient alternative to property binding
+
+When you need to concatenate strings, you must use interpolation instead of property binding
+property binding is used when you have to set an element property to a non string data value.
+
+{{variablename = (condition) ? value1:value2}}
+ 
+<button [disabled]="person.length < 4 ? true:false">click me</button>
+<button [disabled]="person[0].name.length > 4 ? true:false">click me</button>
+ this.person=[
+      {
+        name:'konda',
+        age:23
+      },
+      {
+        name:'mani',
+        age:23
+      },
+      {
+        name:'bochu lakshimi',
+        age:23
+      }
+    ]
+
+.)property binding:- It is like wise attribute defination
+[disabled]="true or false"
+[style]=
+[ngStyle]
+[class]
+[ngClass]
+[hidden]
+<button [hidden]='true'>click me</button>
+<button [hidden]='(candidates.length) > 2 ? true:false'>click me</button>
+
+ in that we can access the property of the element or object and can apply based on conditon 
+ex:- [disabled],[style.color],
+[style] is the best sutaible for single values,
+<p [style.color]="'red'">Hello this is property bindng practice component</p>
+
+<button [disabled]="(candidates.length) > 2 ? true:false"
+[style.color]="(candidates.length) > 2 ? 'yellow':'white'"
+[style.background-color]="'red'">click me</button> 
+
+
+
+ If u want to apply multiple styles the easist way is [NgStyle]
+<button [ngStyle]="styles">click me</button>
+styleclass={
+    "text-success":this.isActive,
+    "text-danger":!this.isActive,
+    "font-size":true
+  }
+
+[class] easy way to bind css classes to html element class.classname
+<button [class.text-danger]="isActive">click me</button>
+isactive:boolean=true;
+
+[ngClasses] when we want to add multiple classes, the ngClass directive should come in to picture.
+ngClass receive an object with class names as keys and expressions that evaluate true or false as values
+<div [ngClass]="styleclass">
+    Log in to the page 
+</div>
+styleclass={
+    "text-success":this.isActive,
+    "text-danger":!this.isActive,
+    "font-size":true
+  }
+
+.)Event data binding:-events are things that happend to html elements.
+(click)
+(change)
+(ngModelChange)
+(keyup)
+
+(focus)="mymethod()"
+(blur)="mymethod()"
+
+(submit)="mymethod()"
+
+(scroll)="mymethod()"
+
+(cut)="mymethod()"
+(copy)="mymethod()"
+(paste)="mymethod()"
+
+(keydown)="mymethod()"
+(keypress)="mymethod()"
+(keyup)="mymethod()"
+
+(mouseenter)="mymethod()"
+(mousedown)="mymethod()"
+(mouseup)="mymethod()"
+
+(click)="mymethod()"
+(dbclick)="mymethod()"
+
+(drag)="mymethod()"
+(dragover)="mymethod()"
+(drop)="mymethod()"
+
+when the user intract with an application in the form of a keyboard movement, like mouse movement, mouseover, mouse click it jenareates an event
+This events need to handled to perform some kind of action.
+that time event binding come into the picture
+
+
+(change)="changeValue($event)"  Using (change) will only fire when the user has blurred the input    {When user entering the input values then click enter button that time only data bind}
+(change) event is not an Angular event, it's a DOM events
+(ngModelChange) is an angular event.It fires when ngModel changes                                 {when user enter every letter will be print no need to press enter key}
+
+The (change)=”changeFn($)” will fire after the value bound to [(ngModel)] has changed
+The (ngModelChange)=”modelChangeFn($event)” will fire before the value bound to [(ngModel)] has changed.
+
+
+{  [ngModel]="example"
+       =
+   [value]="example"
+     =
+    value="{{example}}"
+ } those  are same
+
+{
+[ngModel]
+   +
+(ngModelChange)
+   =
+[(ngModel)]
+}
+{
+ (change)="change($event)"                         // press enter button
+           ~=   
+(ngModelChange)="change($event)"                    // with out press enter typing values display    {no need to write target.value}      
+           =                   
+ (input)="change($event)"                           // with out press enter typing values display
+}
+
+
+<div>
+    <input [value]="foo" (change)="changeFn($event)">
+    <p>{{ foo }}</p>
+    <input [ngModel]="bar" (ngModelChange)="modelChangeFn($event)">
+    <p>{{ bar }}</p>
+</div>
+  `
+
+export class AppComponent {
+  foo = 'Hello';
+  bar = 'World';
+  changeFn(e) {
+    this.foo = e;
+  }
+  modelChangeFn(e) {
+    //this.bar = e.target.value;
+    this.bar=e
+  }
+}
+---------------------------------------------------------------------------------------------
+ <input type="text" [ngModel]="name" (input)="addname($event)"> 
+addname(e){
+    this.name=e.target.value;
+  }
+
+<input type="text" [ngModel]="name" (change)="addname($event)" placeholder="change method"> 
+addname(e){
+    this.name=e.target.value;
+  }
+
+<input type="text" [ngModel]="name" (ngModelChange)="addname($event)" placeholder="change method">
+addname(e){
+    this.name=e;                                    // no need target.value
+  }
+
+
+
+
+
+
+
+
+
+==========================================================================================================================================
+.)Array methods:-
+find()
+
+{spread operater:The spread operater is used to initilize arrays and objects from another array or object. We can also use it for object destructuing
+Ex:- let arr1=[1,2,3]
+      let arr2=[4,5,6]  //create a new array from existing one
+let copyarray=[...arr1]
+let new array=[...arr1,7,8]   // create a new array from existing array with more elements
+let merged array=[...arr1,...arr2]  //merged array
+}
+
+
+1)Find():-the arr.find() method is used to get the value of the first element in the array that satisfying the provided condition.
+find method returns the value of first element in an array that pass a test
+find() method exixute the function once for each element presesnt in an array
+  Syntax:-  
+find method takes call back function
+ArrayName.find(function(element, index, array, thisArgs){
+                         element.name=='';
+                         delete array[2];
+                         if(index==2){concole.log(array[3])}
+
+                        })
+2)copy with in:-
+arrayName.copyWithin(target, start, end)
+
+3)pop():-Removes last element in an array.
+4)push():-add new element in last of array
+5)toString():-converts an array to a string of array values
+6)shift():-Removes the first array element 
+7)unshift():-methods adds a new element to an array 
+8)delete:-java script arrays are objects, elements can be deleted by using the js operater delete.
+9)splice():-method can be used to add new items to an array
+   splice(2,1,"apple","mango")
+   first parameter defines the position where new element should be added
+   second parameter defines how many elements should be removed
+   The rest of the parameters ("apple" , "mango") define the new elements to be added.
+10)concat():-adding two or more arrays.
+11)slice():-slice out a piece of an array into new array
+  slice(3,6):-display in between elements
+   slice(1):-remove first element 
+   slice(4):-removes first 4 elements
+12)sort:- this method sorts an array alphabetically
+13)reverse:-reverse the element of an array
+14)forEach():-calls the function once for each array elements
+  forEach(value, index, array)
+15)map(value, index, array):-Map method creats a new aray by performing a function on each array elements, it does not change the original value
+16)filter(value, index, array):- creates a new array elements that passes a test
+   ex:-    names: any = ['kon', 'daiah', 'haiad', 'kondaiah', 'dai', 'hai', 'ko', 'da']
+            let li = this.names.filter((el, index) => {
+                 return el.toLowerCase().includes('ko');
+               })
+    this.fione = li;
+    console.log(this.fione)
+
+     
+17)reduce():-method runs a function on each array element to produce a single value
+                  it works from left to right
+18)reduceRight():-to produce a single value
+it works from right to left
+19)every(value, index, array):-check if all array values pass a test
+20)some(value, index, array):-check the if some array values pass the test.
+21)indexOf(item, start):- method searches an array for an element value and returns its position of first occurance of the element
+        item: item to search 
+        start:start searching in which position
+22)lastIndexOf(item, start):-returns the position of the last occurance of the specified element
+23)findIndex():-return the index of the first array element that pssses a test function
+-----------------------------------------------------------------------------------------------------
+strings:-length
+         indexof()
+         lastindexof()
+         search()
+extracting string parts:-
+         slice()
+         substring()       ->substr is also similar to slice but substr can't access negative indexs.
+replace string content:-
+         replace()        ->by default replace method replace only first match
+         touppercase()
+         tolowercase()
+         concat()         ->join two or more string
+         trim()           ->removes white spaces from both sides of a string.
+extracting string characters:-
+         charAt(position)
+         charCodeAt(position)
+         property access[]
+converting string to array:                                        // converting the string into array in the ex display 
+         split()                                                   // 
+        ex:-  fullname:any= 'ma/lak/:ond/ai/ah'
+              console.log(this.fullname.split('/', 3))
+
+converting variable to numbers:-
+         numbers()
+         parseInt()
+         parseFlot()
+ex:-number() convert a date to a number
+=========================================================================================================================================
+next()
+complete()
+error()
+-------------------------------------------------
+encapsulation:viewencapsulation.emulated
+encapsulation:viewencapsulation.none                 //apply the styles all over 
+preservewhitespaces:false
+change detection stratagy in angular
+------------------------------------------------------
+Java script Dates:
+.)new Date() :-creates a new date object with the current date and time:
+.)toUTCString() :-The toUTCString() method converts a date to a UTC string (a date display standard):
+.)toDateString() :-The toDateString() method converts a date to a date string:
+.)toISOString():-The toISOString() method converts a date to a date string, using the ISO standard format:
+.)Date.parse():- returns the number of milliseconds between the date and January 1, 1970:
+
+Method	Description
+getFullYear()	Get the year as a four digit number (yyyy)
+getMonth()	Get the month as a number (0-11)
+getDate()	Get the day as a number (1-31)
+getHours()	Get the hour (0-23)
+getMinutes()	Get the minute (0-59)
+getSeconds()	Get the second (0-59)
+getMilliseconds()	Get the millisecond (0-999)
+getTime()	Get the time (milliseconds since January 1, 1970)
+getDay()	Get the weekday as a number (0-6)
+Date.now()
+==========================================================================================================================================
+JS Math:
+math.round(x):-Math.round(4.75)=5;
+math.pow(x, y):-Math.pow(4,2)=16;
+math.sqtr(x):-Math.sqtr(4)=2
+math.abs(x):-math.abs(-5.9)=5.9   Math.abs(x) returns the absolute (positive) value of x:
+Math.ceil(x) returns the value of x rounded up to its nearest integer:
+Math.ceil(x) returns the value of x rounded up to its nearest integer:
+Math.ceil(4.4);     // returns 5
+
+Math.floor(x) returns the value of x rounded down to its nearest integer:
+Math.floor(4.7);    // returns 4
+Math.min() and Math.max() can be used to find the lowest or highest value in a list of arguments:
+
+
+===========================================================================================================================================
+Use (if) to specify a block of code to be executed, if a specified condition is true
+Use (else) to specify a block of code to be executed, if the same condition is false
+Use (else if) to specify a new condition to test, if the first condition is false
+Use (switch) to specify many alternative blocks of code to be executed
+
+if(condition){block of code executed}
+
+if(condition){
+block of code
+}else{
+block of code
+}
+
+if(condition){
+block of code
+}else if(condition){
+block of code
+}else if(condition){
+block of code
+}else if(condition){
+block of code
+}else{
+}
+
+
+
+
+Switch cases use strict comparison (===).
+
+The values must be of the same type to match.
+
+A strict comparison can only be true if the operands are of the same type
+
+switch(condition){
+case '':{
+  value
+   break;
+  }
+case '':{
+  value
+   break;
+  }
+case '':{
+  value
+   break;
+  }
+case '':{
+  value
+   break;
+  }
+dafault:{
+ }
+}
+==========================================================================================
+loops:-for, for/in, for/of, while, do/while
+
+for (statement 1; statement 2; statement 3) {
+  // code block to be executed
+}
+
+for...in loop is used to loop through an object's properties
+for(  in  ){}
+for(var variable_name(pro) in object_name(cars)){
+console.log(cars[pro])    //dont use cars.pro
+}
+
+
+
+
+do {
+  // code block to be executed
+}
+while (condition);
+
+
+while (condition) {
+  // code block to be executed
+}
+
+
+
+Break-----statement can be used to jump out of loop. The break statement breaks the loop and continues executing the code after the loop.
+******note:-The break and the continue statements are the only JavaScript statements that can "jump out of" a code block.
+
+===========================================================
+type conversion:
+============================================
+json:
+json is a formater for storing and transporting data
+data send from server to a web server
+
+data is in name/value pairs.
+data is separated by commas
+curly braces hold commas
+square brackets hold arays.
+"name":"value"
+{"name":"konda","age":23} json objects
+"candidates":[
+{"firstName":"John", "lastName":"Doe"},
+  {"firstName":"Anna", "lastName":"Smith"},
+  {"firstName":"Peter", "lastName":"Jones"}
+]
+
+*******JSON.parse() nto convert the string into a javascript object
+globel variables can accessed from any where in a js program
+local variables accessed from in side the function where they are decleared.
+variable decleared with the {let} keyword can have block scope
+variables decleared with the {var} keyword canot have block scope
+
+var:- can't block scope
+let:-have block scope.Means with in that block only
+========================================================================================================
+Objects:- Object.keys(cars).length ----------> length of object
+
+
+     syntax:
+object_name.property          //person.age
+ object_name["property"]      //person["age"]
+object_name[expression]       //x="age"; person[x]
+
+
+adding  -----person.name='konda'
+delete  -----person.name;
+
+var person = {
+  firstName: "John",
+  lastName : "Doe",
+  id       : 5566,
+  fullName : function() {
+    return this.firstName + " " + this.lastName;
+  }
+};
+
+name = person.fullName();
+
+
+Displaying a JavaScript object will output [object Object].
+
+*********the solutions are***************** 
+.)dispalying the object properties by name       //person.name
+.)displaying the object properties in a loop       //for( in ){}
+.)dissplayong the objects using Object.values()      //var newNames=Object.values(names); document.write(newNames)
+.)displaying the object using JSON.stringfy()
+
+
+Object.defineProperty(person, "language", {writable:false})
+==================================
+**********************************JSON***********************************************
+.)JSON.parse()  --------------convert sring to object   {{receiving data from server and binding}}
+
+{{When receiving data from a web server, the data is always a string.
+
+Parse the data with JSON.parse(), and the data becomes a JavaScript object.}}
+
+
+JSON.parse():-the data in json is string format type
+.)JSON.stringify()  ----------convert data into string format   {{send object data to the server in the form of string}}
+ {{When sending data to a web server, the data has to be a string.Convert a JavaScript object into a string with JSON.stringify().}}
+
+
+    localStorage.setItem('cre',JSON.stringify(this.usercre.value))     ============send data to the local stroage.  
+    this.details=JSON.parse(localStorage.getItem('cre'));              ============get  the data from local storage
+
+
+
+looping json object:
+(for-in)
+<p id="demo"></p>
+<script>
+var myObj, x;
+myObj = {"name":"John", "age":30, "car":null};
+for (x in myObj) {
+  document.getElementById("demo").innerHTML += myObj[x] + "<br>";
+}
+</script>
+
+
+
+  f: object = {
+    name: 'apple',
+    cost: 30,
+    status: 'available'
+  }
+
+    for (let fin in this.f) {
+      console.log(this.f[fin]);        //
+      console.log(fin);
+    }
+
+
+///for-of
+
+ex:-1.  fruits: any = ['mango', 'orange', 'apple'];
+
+
+    for(let fof of this.fruits){
+      console.log(fof)
+    }
+
+2.fruitDetails: any = [
+    {
+      name: 'apple',
+      cost: 30,
+      status: 'available'
+    },
+    {
+      name: 'orange',
+      cost: 40,
+      status: 'available'
+    }]
+ for(let fof of this.fruitDetails){
+      console.log(fof.name)
+    }
+  
+==========================================================================
+Function:-
+function syntax :-
+function functionNmae(parameters){
+code to be exicuted
+}
+
+self invoming expression is invoked automatically, with out being called
+you have to add parenthasis around the function to indicate that is fiunction expression
+anonymous self invoking function(function with out name)
+ functions are objets
+typeof function= object;
+arguements.length property returns number of arguements received when the function was invoked
+tostring() method returns the function as string
+
+function parameters and arguements
+function functionName(parameter1, parameter2, parameter3){
+code to be exicuted;
+}
+===================================================================================================================================
+Java Script Browser BOM:(Browser object model)
+window.innerHeight:the inner height of the browser window.
+window.innerWidth:
+window.open()    -----open new window.
+window.close()   -----close the current window.
+window.moveTo()  -----move the current window.
+window.resizeTo() ----resize the current window.
+================================================
+
+Window location: 
+
+window.location            ======== object can be used to get the current page address(URL) and redirect the browser to a new page.
+window.location.href ===============returns the href(URL) of the current page.
+window.location.hostname  ==========returns the domain name of the web host.
+window.location.pathname returns the path and filename of the current page
+window.location.protocol returns the web protocol used (http: or https:)
+window.location.assign() loads a new document
+====================================================================
+Window History:
+
+window.history    ====objects contains the browser history.
+window.history.back   == this is like back button (loads back url)
+window.history.forward  ==method loads the next URL in the history list.This is the same as clicking the Forward button in the browser
+window.history.go(-2)  ===backward 2 browser history
+=====================
+localStorage.setItem("name","konda");  -----stores a data item in a storage. It takes a name and a value as parameters.
+localstorage.getItem("name");      ----retrieves a data item from the storage, it takes name as parameter.
+
+
+SessionStorage object is identical to the localStorage object
+     
+       the differance is that the session storage object stores data for one session. The data is deleted when the browser is closed.
+
+key(n)
+length
+getItem(keyname)
+setItem(keyname, value)
+removeItem(keyname)
+clear()
+window.localstorage.clear();
+=========================================================================
+Popup Alert:
+
+window.alert()  ======is used to make sure information comes through to the user. User will have to click ok button to proceed
+window.confirm()  ====click ok or cancel
+window.prompt()  ====if u wnat the user to input a value before entering a page
+==================================================================================
+Timings:
+
+The window object allows execution of code at specified time intervals
+setTimeout(function, milliseconds)    =====  Executes a function, after waiting a specified number of milliseconds.
+setInterval(function, milliseconds)   =====  Same as setTimeout(), but repeats the execution of the function continuously.
+clearTimeout()                        ====== method stops the execution of the function specified in setTimeout().
+myVar = setTimeout(function, milliseconds);
+clearTimeout(myVar);
+
+<p id="demo"></p>
+
+<script>
+var myVar = setInterval(myTimer, 1000);
+
+function myTimer() {
+  var d = new Date();
+  document.getElementById("demo").innerHTML = d.toLocaleTimeString();
+}
+</script>
+
+
+document.cookie;
+
+
+
+
+===================================================================================================================================
+Angular topics to learn:-
+  Start to learn angular udemy videos
+  
+======================================================================================================================================
+            *********************************************TYPE SCRIPT***************************************************************
+
+Typescript=javascript+ additional stuff==super set of java script
+ aditional stuffs= {Oops capabilities} object oriented principles
+class, intrefeces are oops principles those are added in js
+typescript was developed by microsoft
+
+Es5 they dont have const, let
+ type script have a capabulity to convert into java sccript
+ ---------
+tsc will compile and convert
+tsc home.ts  ----- compile
+node home.js
+-------------
+********use let, const instead of var keyword
+javascript is ascycronus
+scope of let is block level.
+let keyword break asycronuyu jail
+--------------------------------
+Const
+ its similar to let 
+only future is if we decleare any value to constant variable and try to re declear that value its through an error
+fixed value 
+------------------------------------------
+Class:- It constitute properties and methods and constructor 
+u can declear methods inside the class create object of that class
+
+import and export 
+interfaces:- contract of object like properties of object {skelton of the body}
+interface
+{
+}
+=======================================================================================================================================================================
+**********************************************************Angular*******************************************************
+@angualar/core librarry
+components
+directives
+servides 
+modules 
+pipes
+
+dependency injuction
+
+
+
+
+------------------------------
+angualar architecture
+
+find the root component this will be entry point of our application
+
+
+@component({
+selector: 'app',
+template: `hello`
+})
+export class app
+{
+} 
+
+
+@ngModule({
+  declarations:[app],
+  imports: [BrowserModule]
+  bootstrap::[App]     //entry point of over application
+})
+export classAppModule{
+}
+
+
+platformBrowserDynamic().bootstrapModule(AppModule)     //main.ts
+
+-----------------------------------------------------
+angualr input----in that use property binding syntax
+
+angular output ---- in that use event binding syntax
+
+
+Angualr diractives
+--------------------------------------------------------------------
+npm install typescript
+npm install -g @angular/cli
+ng new app_name
+
+index.html---starting point of our system application
+main.ts -----starting point of our angular app
+
+main.ts(AppModule) =>AppModule =>bootstrap =>appComponent
+
+angular suports module system
+
+
+decarator  ===>>decorator is fffunction
+
+
+@NgModule({
+declaration:[],
+imports: [],
+bootstrap: [AppComponent]--top level component all the component have children of this component
+})
+
+platformBrowserDynamic().bootstrapModule(AppModule) what module is the main module of this application
+Angular have one or many other module
+
+Angular components contains:-export class, decarators, imports
+
+data binding:
+.)string interpolation ==>>{{}} accessing an object or property
+  <input type="text" value="{{getNumbers()}}">
+                     OR
+   <input type="text" [value]="getNumbers()"> 
+                     OR
+  <input type="text" bind-value="getNumbers()">
+
+
+<button (click)="alert('hello')">click me</button>  ====>>nothing can display bze inside the statement we can't acces any global variable like alert, window
+[value]="'string'"
+[value]="object"
+
+
+$event:
+
+<input type="text" (click)="show($event)">
+<input type="text" (input)="show($event)">
+show(evt){
+console.log('$event',evt)
+}
+
+<input (input),(change)="method_name($event)">
+(input)-------what ever u type in the text box that will dispaly, if u backspace than it will also backspace
+(change)------when we type something and press enter that value only display 
+--------------------------------------------
+Angular diractives:
+
+
+[style.font-style]="guest.vip ? 'italic':'normal'"
+
+[style.font-style]
+[style.font-width]
+[style.font-size]
+
+[ngStyle]="styles"
+.ts
+styles={
+'font-style':this.guest.isvip? 'italic':'normal'
+'font-width':this.guest.isvip? 'bold':'normal'
+}
+----------------------------
+two way data binding
+[ngModel]              -----------[value]
+(ngModelChange)         ---------(input)=""
+
+instead of that we use [(ngModel)]="available_passengers"    -----------So what ever the data aailable in the available_passengers should bind into value property And then change value bind into the available_passengers
+                                                                         {{right to left, left to right}}
+
+[(ngModel)]="passenger" ==>>[value]="passenger"     component to template
+                            (change)="pass=($event.target.value)"
+
+
+
+
+property binding ---sendind the data from compoent to template  {{We can access the property of that element that is in component }}
+-------------------------------------------------------------------------
+diractives:-
+.)ngIf
+.)ngFor
+.)ngSwitch
+
+
+*******************<input type="text" #textone>   # ===>>referance of the input like we write {{id="inputone"}}***************************
+Referance variable
+-------------------------------------
+switch(this.number){
+      case 1:{
+        break
+      }
+      case 2:{
+        break
+      }
+      case 3:{
+        break
+      }
+      default:{
+        break
+      }
+    }
+
+------------------------------------
+ngSwitch:
+<div [ngSwitch]="color">
+    <p *ngSwitchCase="'r'">print red color</p>
+    <p *ngSwitchCase="'g'">print green color</p>
+    <p *ngSwitchCasse="'b'">print blue color</p>
+    <p defaultSwitchCase>print normal color</p>
+</div>
+-----------------------------------------------------------
+Angular is 
+component has hirarical stracturs
+means  component has one or  meny other child components
+.)parent to child data transfer @input()  -----use property binding
+in parent element have the data in that we place child selector
+child component have write code and put some variable as input in child
+we can pass the property of child using property binding
+
+
+
+child to parent component: @output()    ------use event binding, evnt emitter,emit
+first creat new object of type event emiter then we anotate with output   @output name= new eventEmiter()
+now the parent component listen this(name) event <app-child></app-child>
+----------------------------------------- 
+parent component calling child method:
+calling method 
+fist create a method in child component
+then add selector in parent component and add referance of that value
+<app-child-four #kd></app-child-four>
+<button (click)="kd.setValue('kondaiah')">set name</button>
+<button (click)="kd.reset()">reset</button>
+-----------------------------------------------------------------------
+sibling component
+sending data from component-A to service and then receiving the data from srevice to component-B
+
+
+take the data and send the data that provision is available in rxjs librarary i.e Subject class
+Subject() class has capable of receiving the data and sending the data
+
+service.ts:-
+  sendMessage= new Subject();
+  sendObject= new Subject();
+  sendArray= new Subject();
+  communicateMessage(mes){
+    this.sendMessage.next(mes)
+  }
+  communicateObject(obj){
+    this.sendObject.next(obj);
+  }
+  communicateArray(arr){
+    this.sendArray.next(arr)
+  }
+
+com-a
+ messageFromComA = "hello and welcome";
+    objectFromComA = { name: 'konda', age: 23 }
+    arrayFromComA = ['one', 'two', 'three']
+    ngOnInit() { }
+    sendmessagetocomB() {
+        this.sibservice.communicateMessage(this.messageFromComA)
+    }
+    sendObjecttocomB() {
+        this.sibservice.communicateObject(this.objectFromComA)
+    }
+<button (click)="sendmessagetocomB()">send message</button>
+<button (click)="sendObjecttocomB()">send object</button>
+<button (click)="sendArraytocomB()">send array</button>
+
+com-b
+
+  this.sibservice.sendMessage.subscribe(e=>{console.log(e)});
+      
+------------------------------------------------------------
+setters and getters:-
+
+setters:- setting the properties
+getteres:- get the properties
+
+----------------------------------------
+diractives:
+.)atribute diractives:-
+dont modify in the dom they change appearance of dom
+@hostlistner('somename') methodname(){}
+
+{when we need to change the dom behaviour first write diractive and place the selector name where ever needed template}
+
+
+resize diractive.ts
+
+import { Directive, ElementRef, HostListener } from '@angular/core';
+@Directive({
+  selector: '[appResize]'
+})
+export class ResizeDirective {
+  el: ElementRef
+  constructor(el: ElementRef)
+   {
+     this.el=el
+    // console.log(el.nativeElement,'el');
+    // el.nativeElement.style.color='red';
+    // el.nativeElement.size=100;
+   }
+   @HostListener('mouseenter') onMouseEnter(){
+     this.el.nativeElement.size=100;
+   }
+   @HostListener('mouseleave') onMouseLeave(){
+     this.el.nativeElement.size=20;
+   }
+}
+
+atribute-diractive.html
+<input type="text" appResize>
+
+-----------------------------------------------------------------------------------------------------
+@viewchild:
+
+@ViewChild('btn', { static: true }) btnproperty: ElementRef;
+
+    ngAfterViewInit() {
+        this.btnproperty.nativeElement.style.color = "red";
+        //this.btnproperty.nativeElement.style.size
+        console.log(this.btnproperty.nativeElement.style.borderColor = 'red')
+    }
+
+<button #btn>view-child</button>
+
+
+    @ViewChild('btn', { static: false }) btnproperty: ElementRef;
+    @ViewChild(SearchbarComponent, { read: SearchbarComponent, static: false }) search: SearchbarComponent;
+    @ViewChild('chi', { static: true }) colo:ElementRef;
+    ngAfterViewInit() {
+        this.btnproperty.nativeElement.style.color = "red";
+        console.log(this.btnproperty.nativeElement.style.borderColor = 'red');
+       console.log(this.colo.nativeElement.style.display='none')
+    }
+
+
+
+---------------------------------------------------------------------------------------------------------------------------------------
+Pipes:
+--------------------------------------------------------------------------------------------------------------------------------------
+ng new app-name
+ng g c component-name
+ng g c d diractive-name
+ng g c class-name
+ng g p pipe-name
+--------------------------------------------------------------------------------------------------------------------------------
+forms:
+html event referance
+<input type=" text" (keyup)="two($event.target.value, $event.keyCode)">
+---------------------------------------------------------------------
+reactive forms:-
+
+import { FormControl, FormGroup, FormBuilder } from '@angular/forms'
+
+export class FormsComponent {
+
+  constructor(private fb: FormBuilder) { }
+  name = new FormControl('konda');
+  // candidate= new FormGroup({
+  //   firstName: new FormControl(''),
+  //   lastName: new FormControl(''),
+  //   addressForm: new FormGroup({
+  //     town: new FormControl(''),
+  //     street: new FormControl(''),
+  //     pincode:new FormControl('')
+  //   })
+  // })
+  //OR we can write using form builder
+  candidate = this.fb.group({
+    firstName: [''],
+    lastName: [''],
+    addressForm: this.fb.group({
+      town: [''],
+      street: [''],
+      pincode: ['']
+    })
+
+  })
+  submit() {
+    console.log(this.candidate.value);
+  }
+  clearForm() {
+    this.candidate.setValue({
+      firstName: '',
+      lastName: '',
+      addressForm: {
+        town: '',
+        street: '',
+        pincode: ''
+      }
+    })
+  }
+}
+ ///////////////formArray///////////
+this.details = new FormGroup({
+      first_name: new FormControl('kon'),
+      last_name: new FormControl(null),
+      address: new FormGroup({
+        village: new FormControl(null),
+        pincode: new FormControl(null)
+      }),
+      email: new FormControl(null),
+      gender: new FormControl(null),
+      checking: new FormControl(null),
+      skills: new FormArray([]),
+      languages: new FormArray([])
+    })
+-----------------------------
+.ts
+onAddSkill() {
+    var formGroup = new FormGroup({
+      skillName: new FormControl(null),
+      level: new FormControl(null)
+    });
+    (<FormArray>this.details.get('skills')).push(formGroup);
+    console.log(typeof formGroup.value);
+    console.log(Object.keys(formGroup[1]).length);
+    console.log(this.details);
+  }
+  removeSkill(index: number) {
+    (<FormArray>this.details.get('skills')).removeAt(index)
+    //this.details.get('skills').re
+  }
+  AddLanguages() {
+    var languagesGroup = new FormGroup({
+      language_name: new FormControl(''),
+      leveloflanguage: new FormControl('')
+    });
+    (<FormArray>this.details.get('languages')).push(languagesGroup);
+  }
+  removelan(index:number){
+    (<FormArray>this.details.get('languages')).removeAt(index)
+
+  }
+---------------------
+.html
+
+<div formArrayName="languages">
+            <div *ngFor="let lan of details.get('languages')['controls']; index as i" [formGroupName]="i">
+                <input type="text" formControlName="language_name">
+                <select formControlName="leveloflanguage">
+                    <option disabled value="null">level</option>
+                    <option value="Begineer">Begineer</option>
+                    <option value="good">good</option>
+                    <option value="poor">poor</option>
+                </select>
+                <button class="btn btn-danger" (click)="removelan(i)">remove lan</button>
+                Languages:
+            </div>
+            <button (click)="AddLanguages()">Add Languages</button>
+        </div>
+------------------------------------
+Form builder : For simplifying the syntax of creation of formGroup, formcontrol and formArray
+
+.)FormGroup               >>>this.formBuilder.group({})
+.)FormControl             >>>this.formBuilder.control(defaultvalue)
+.)FormArray               >>>this.formBuilder.array([])
+
+Ex:- personName:this.formbuilder.group({
+name:this.formBuilder.control()    //name:''
+skills: new FormArray([])          //skills:this.formBuilder.array([])
+})
+------------------------------------
+Validations:
+
+
+https://medium.com/@imvikaskohli/angular-6-reactive-form-validation-90f163490935
+
+
+class="form-control"
+[ngClass]="{ 'is-invalid': (details.get('first_name').touched)  && details.get('first_name').errors }"
+
+
+validators.required                >>>specify that the field is mandatory (can't be blank)
+validators.pattern                 >>>specifies regular expression.
+validators.minlength               >>>minimun no. of characters to accept
+validators.maxlength               >>>maximum no. of characters to accept
+validators.min                     >>>minimum value for numerical field
+validators.max                     >>>maximum value for numerical field
+validators.email                   >>>email property
+
+///////////////////
+untouched property 
+.)true : the field is not focused at least once.
+.)false : the filed is focused at least once.
+touched 
+.)true : the field is focused at least once.
+.)false : the field is not focused at least
+prestine
+.)true : the field is not modified at least once
+.)false : the field is modified at least once
+dirty
+.)true : the field is modified at least once
+.)false :the field is not modified at least once
+valid
+.)true : the field is valid (has no error)
+.)false : the field is invalid(has errors)
+invalid
+.)true: the field is invalid(has erros)
+.)false : the field is valid(has no erors)
+errors
+.)required  : the field is invalid because of required rule
+.)pattern : the field is invalid because of pattern rule
+.)minlength: the field is invalid because of minlength rule
+.)maxlength :  the field is invalid because of maxlength rule
+.)min : the field is invalid because of min rule
+.)max : the field is invalid because of max rule
+.)email : the field is invalid because of email rule
+///////////////////////////////////////////////////////////////
+custom validations:
+create validations in ur own 
+.)Define a function of type validationFn, that contains validation logic
+
+export interface validationFn
+{
+   (control: AbstractControl): validationErrors | null;
+}
+
+public static myvalidator(parameter: dataType): validatorFn
+{
+   return (control: AbstractControl): validationErrors | null =>{
+
+if(condition){return null}   //valid
+else{return {'errorName':{valid: false}}}
+}
+}
+////////////////////////////////////////////////////
+Cross field validations
+
+check more then one form control
+password and confirm password should be same
+
+
+
+
+------------------------------------------
+setvalue:
+        //if any value missing like miss email value it throws a error it means it upate all the values
+addUserAllDetails() {                       //if any value missing like miss email value it throws a error it means it upate all the values
+    this.details.setValue({
+      first_name: 'konda',
+      last_name: 'bochu',
+      email: 'k@123.com',
+      gender: 'male',
+      checking: true
+    })
+--------------------------------------------
+<p>forms works!</p>
+<p>Name:<input type="text" [formControl]='name' /></p>
+{{name.value}}
+
+
+<form [formGroup]="candidate" (ngSubmit)="submit()">
+    <p>
+        firsr name:
+        <input type="text" formControlName="firstName">
+    </p>
+    <p>
+        last name:
+        <input type="text" formControlName="lastName">
+    </p>
+    <div formGroupName="addressForm">
+        Address:
+        <p>town:<input type="text" formControlName="town"></p>
+        <p>street:<input type="text" formControlName="street"></p>
+        <p>pin code:<input type="text" formControlName="pincode"></p>
+    </div>
+    <button type="submit">submit</button>
+    <button (click)="clearForm()">clear</button>
+</form>
+
+--------------------------------------------------------------------------------------------------------------------------------------
+
+.)Angular is a frontend framework to create maintainable web applications
+.)Completly re-write of AngularJS
+.)Developed by Google
+.)Angular CLI enables you to create things faster.
+.)
+
+
+
+goals and advantages of Angular.
+.)separation of dom manuplation of logic from application logic
+
+
+--------------------------------------
+building block of Angular
+  the seven building block of angular are:
+.)components                  contains application data and event handler method
+.)template                     contains design logic to present out put to the user.
+.)data bindings
+.)modules                       group of related components
+.)services                      ts class rest api calls and also aditional data to the server
+.)dependency injection          creating services object at run time automatically and load that sevices object at constructor object
+.)diractives
+------------------------------
+instaling NodeJS               allows to use npm on ur mission in which all angular packages are shipped
+install visual studio code
+install Angular CLI
+
+md-make diractry
+cd change diractry
+-------------------
+adding bootstrap in ur angular application.
+.)npm install jquery --save
+.)npm install popper.js --save
+.)npm install bootstrap --save
+.)npm install font-awesome --save
+
+
+Angular.json file: styles:
+-------------------------
+component hirarcy
+component metadata
+Decorator | @component({
+metadata  | selector
+          | templateURL
+          | styleurl
+})
+
+-----------------------------------
+routing  
+page navigation to create "single-page-application"
+@angular/router
+
+.)import "@angular/router" package in "package.json" file
+     "@angular/router":"~7.2.0"
+.)define base url "index.html" file
+      <base href="/">
+index.html  <base href="">
+.)routerLink="home"
+.)routing module
+
+const routes:Routes=[
+{path:"home", component:"homecomponent"}
+{path:"", redirectTo="dashboard", pathMatch:'full'}
+]
+.)<router-outlet></router-outlet>
+
+------------------------------------------------------------------------------------------------
+Routing:-
+.)Route parameters:-
+-user passes a parameter value from browser's url
+-Angular router assigns value to the parameter.
+-The component receives the parameter and supplies relevant information to the template
+
+one route path have one or more parameters
+.)receiving route parameters in component class.
+------------
+
+path:'',
+component:,
+redirectTo:'',
+pathMatch:'full',
+canActivate:[],
+data:{expectedRole:''}
+
+
+const routs:Routes=[
+{path:'', component:}];
+@ NgModule({
+imports:[RouterModule.forRoot(routes,{useHash:true, enableTracing:true})],
+exports:[RouterModule]
+})
+export class AppRoutingModule{}
+------
+
+1)parent
+    a)child
+        .)nested
+        .)nested
+    b)child
+        .)nested
+        .)nested
+
+
+.)view-ception 
+.)nav menus, sub menus, side menus etc.
+loadchildren
+preloadingstrategy:preloadAllModules
+--------------------------------------------------
+modules like
+forms, reactiveForms, http ,Router
+
+.)configure the routes
+.)add a router outlet
+.)add links
+
+[routerLink]="['path', arguements]"
+-----------------------------------------
+*****)learn everything about angular routing
+>routing in Angular
+>Routing Strategy
+> Base HPEF
+> Router Outlet
+> configuring Routes
+> Parametrized Routes
+< Router Link
+> Redirecting Routes
+> Wildcard Routes
+> Router Link
+> Query Params in Routes
+> child Routes>>>>>Axuliry routes
+> Modules with specific Routes
+> lazy Loading
+>Route Guards
+------------------------------------------------
+router-outlet>>>>>>>>>>is the diractiva from router module where it eill tell dynamic content load in side that perticle diractiva.
+router outlet lets us define where the output should be displayed
+we hava one or more then router outlet
+
+Where ever we want the output to display for a route - we can configure using router outlet
+<router-outlet></router-outlet>
+-------------------------------------------------
+.)routing parametrized routes:
+
+we can config and send parameters to our routes
+we need to config the routes and mention that the value is dynami
+{path:'product/:id', component:componentName}
+
+first declare the path name have params like path:'product/:id'
+in constractor private activateRoute:activatedRoute
+this.activateRoute.params.subscribe(data=>{this.param1=data.id,this.param2=data.id
+})
+---------------------------------------------------------------
+.))Angular quary params: are passed in the url
+
+ routing- query parameters
+we can easily configure query parameters in the url routes
+ like    https://www.youtube.com/watch?v=HBM2MHZFj_A
+
+constructor(private activatedroute:activateRoute){
+this.activatedRoute.quarmParm.subscribe(data=>{console.log(data)})
+}
+
+-------------------------------------------------------------------
+.))redirective Routes:
+
+when we want to be redirected to another route -we will implement the redirectTo in our routes array.
+the syntax to define the same is given below
+{path:'',redirectTo:'home', pathMatch:'full'}
+when ever an empty path pass we require to mention pathmatch should be "full"
+we can define any number of redirecting routes
+-----------------------------------
+.))wildcard route: when ever there is no matching url path routs array
+
+when no amtch routes are found in the routes array, the router does not know where to go and hence result in console errors
+wild card routes are defind in the routes array using  {path:'**'}
+usually a component named pagenot found is mapped used.
+------------------------------------------------------------------------
+.))child Routes
+
+ we can configure child routes to create more meaningful URL segments
+the child routes array will fallow syntax and array concepts as similar to defining the eoutes array
+       {path:'products', children:[{path:'product-child', component:}]}
+we can config any nember of child routes to parent route there is no restriction
+----------------------------------------------------------------------------------------
+lazy loading:
+By default NgModules are eagarly loaded, which means that as soon as the app loads, so do all the ngModules, whether or not they are immediatly necessary
+for large apps with lots of routes, consider lazy loading --a design pattern that loads NgModules as needed
+lazy loading helps keep initial bundle sizes smaller, which in turn helps decrease load times
+
+All modules are loaded as soon as app is loaded 
+ -it makes our application very heavy
+
+lazy loading:-load modules when they are required
+before Angular8
+  loadChildren: [custsomerModule] 
+now synamic function which will import
+
+
+syntax for lazy loading:
+.)first crate feature modules
+   -child routes
+.)loadchildren:
+  -config ina app routing
+ng g module orders --route order --module app.module
+ng g m moduleName
+loadchildren
+------------------------------------------------------------
+.)route Guards:
+  route guards allows us to t=restrict users to not access certain routes or paths
+ex:-if the user is not loged in --the user sholuld not acces the 
+if the user is log in only show the next 
+
+when ever implement a route guard --it will give boolean value
+based on this boolean value angular should deside if user should be access the route
+
+
+if gurd canactivate function returns true then only access and go to that route
+if it false it will not go to the route
+
+canActivate:[authGuard]
+
+
+
+
+
+
+ng g guard <guard-name>
+while generating 
+
+there are various types of route guards available
+.)canActivate  ---checks to see if user can visit a route
+.)canActiveChild  ---checks to see if a user can visit a routes children
+.)canDeactivate --checks to see if a user can exit a route
+.)Resolve   ---performs route data retrieval before route activation
+.)canLoad   --checks to see if a user can route  to a module that lazy loaded
+----------------------------------------------------------------------------------------------------------------------------
+private rout:Router
+
+this.rout.navigate(['go this url'])
+we can directly go through that page when click that
+<li (click)="change(1)">one</li>
+change(id){
+this.rout.navigate(['/user'],id)     //navigate(['path',parameter])   user/1
+}
+
+
+
+{path:'user', component:usercomponent},                    //routes
+{path:'user-one', 
+children:[                                                  //child routes
+{path:'', component:useronecomponent},
+{path:'user-two', component:usertwocomponent},
+{path:'user-three',children:[                                 //nested child routes
+{path:'', component:userthreecomponent}
+]}
+]},
+
+{path:'log-in', component:logincomponent, canactivate:[guard name], data:['admin']}        //router guard
+
+**********************************https://www.youtube.com/watch?v=6umBWrG2uqY**************************************************
+
+prevent child routes un necessary accessing
+to prevent child routes canactivatechild
+implements canactivatechild{
+}
+
+
+canDeactivate:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Lazy loading:-
+Angular project contains multiple modules
+
+modules are loaded when ever the moment the app loads  ir respect of they need or not
+
+it makes our application is high
+
+that y lazy loading come means needed module only load
+
+.) before Angular 8 the syntax for lazy loading
+  loadChildren:[module_name]
+after Dynamic function which wwill import
+
+syntax for creating lazy loading
+this is 2 step process
+1)create future module
+   --has child routes
+2)loadchildren
+    --config in app routing
+
+ng g m module_name(orders) --route orders --module app-module
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+==============================================================================================================================================
+Life cycle hooks:
+Acomponent in angular has life cycle a number of dif faces it goes to initiations to destruction
+
+Life Cycle Hooks: these are optional
+life cycle hooks of components $ diractives.
+thers is component when the router or parent component invokes the component class angular automatic create an object for the class
+.)immediatly constructor of the component class method will exicute  ---------------use constructor to initialize properties of the component & inject services into component
+.)ngOnChanges() exicute automatically when u have received one or more @input values into the in put properties, and also input properties change in parent component------Executes when values are passed to input properties of the component& every time when input values have been changed
+.)ngOnInit()   Executes after initialization of component meta data. Used to call services to get initial data from database.
+.)ngDoCheck()  Executes when an event occurs, before change "detection process". Used to identify whether change detection process occurs or not
+.)ngAfterContentInit()---Executes after initialization of 'content' of the component Execute only one time in the life time of the component
+.)ngAfterContentChecked()------Executes "change detection" process of "content" of the component execute every time after the change detection of the process
+.)ngAfterViewInit()--------executes once after the all initialization of view of the component
+.)ngAfterViewChecked()-----------executes after "change detection" process of "view" of the component
+.)ngDoCheck()------Executes when any javascript event occurs:click, dbclick
+
+**ngOnchanges() does not exicute when there is no @input properties
+**ngOnInit()
+ngDoCheck()
+**ngAfterContentInit()
+ngAfterCOntentChecked()
+**ngAfterViewInit()
+ngAfterViewChecked()
+
+
+executes when any javascript event occurs:click,dbclick
+angular perform 3 methods
+.)ngDocheck
+.)ngAfterContentChecked()
+.)ngAfterViewChecked()
+
+OnDestroy():-Executes before destroying(deleting) the component object from memory [when the route has changed]
+
+
+
+
+Normally use the below life cycle hooks
+
+**ngOnchanges()
+**ngOnInit()
+**ngAfterContentInit
+**ngAfterViewInit()
+
+
+
+
+
+ngonit
+ngdocheck
+ngonchanges
+ngdestroy  in dif states of component exicution
+
+
+************when there is only one input property use getters and setters
+if there is more then one use ngOnChanges
+**********************
+
+
+=======================================================================================================================
+child routes
+reactive forms
+
+newone
+
+{Dubai-Trade-Service
+C:\Inspire\GIT\DTS-Kondaiah2\Dubai-Trade-Service>
+}
+
+twinkle game
+routing-module
+
+
+
+TradeService
+C:\Users\bochu.m\tradeservice\TradeService
+C:\Inspire\GIT\DTS-Kondaiah2\Dubai-Trade-Service\src\app
+C:\Users\bochu.m\Desktop\twinkle-game-project\src\app
+C:\Users\bochu.m\Desktop\Desktop data2\Angular\new-one\src\app
+C:\Users\bochu.m\Desktop\Desktop data2\Angular\date-picker\src\app
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+=====================================================================================================================================
+jQuery:
+
+
+The jquery library contains the following features
+1.html/dom manipulation
+2.css manipulation
+3.html event methods
+4.events and animations
+4.ajax
+5.utilities
+
+All selector in jquery start with the dollar signn and paranthasis $()
+syntax:- $(selector).action()
+$            -> define and access jquery
+(selector)   -> to find html elements
+action()     -> to be performed on the elements
+ex:- $(this).hide()      -> hides the current element
+     $("p").hide()       -> hides all <p> elements 
+
+
+
+$('')                           ->defines a selector{like in html selector<h1>}
+$('*')                          -> All elements
+$(#lastname)                    -> element with id=lastname
+$('.intro')                     ->class name=intro
+$('.intro, demo')               -> with class intro or demo
+$('p')                          -> All p elements
+$('p:first')
+$('p:last')
+$('tr:even')
+$('tr:odd')
+$('p:first-child')
+$('p:last-child')
+$('')
+----------------------------------------------------------------------
+jquery event methods:
+bind()                 -> it is old version. Use the on() method
+blur()                 -> Attaches/trigger the blur event
+change()               -> Attaches/trigger the change event
+click()                -> Attaches/trigger the change event
+dbclick                -> Attaches/trigger the change event
+die()                  -> removes the all event handels added with the live() method
+delegate()             -> use on method instead. Attached a handler to current or future , specified child elements of the matching elements
+error()
+event.current.target
+event.data
+event.type
+event.target
+event.timestamp
+event.which
+
+focus()
+focusin() 
+hover()                 ->method takes two functions and is combination of mouseenter(), mouseleave() methods
+keydown()
+key.press()
+keyup()
+live()
+load()
+mousedown()
+unload()
+undelegate()
+unbind()
+triggerHandler()
+trigger()
+toggle()
+submit()
+select()
+scroll()
+resize()
+ready()
+$.proxy()
+one()
+on()
+off()
+mouseup()
+mouseover()
+mouseout()
+mousemove()
+mouseleave()
+mouseenter()
+---------------------------------------------------------------------------------------------------
+mouse events:
+click
+dbclick
+mouseenter
+mouselwave
+
+keybordevents:
+keypres
+keydown
+keyup
+
+form events:
+submit
+change
+focus
+blur
+
+document/window events
+load
+resize
+scroll
+unload
+---------------------------------------------------------------------------------------------------
+The document ready event
+  $(document).ready(function(){
+    // jquery methods go hear
+   })
+
+
+$(document).ready(function(){
+$("button").click(function(){
+$("h2").hide()
+});
+});
+  
+    --------or----------
+$(function(){
+$("button").click(function(){
+$("h2").hide()
+});
+})
+
+2. focus()                                    //The focus() method attaches an event handler function to an html form field 
+$(function(){                                 // the function is exicuted when the form field gets focus
+$("input").focus(function(){
+$(this).css("color","red")
+})
+})
+
+3. blur()                                  // the blur method attaches an event handler function to an html form field
+$(function(){                              // the function is exicuted when the form field loses focus
+$("input").blur(function(){
+$(this).css("color","green")
+})
+})
+
+4. on()                                   // the on() method attaches one or more handlers for the selected elements
+$(function(){                             // attaches a click event to a <p> element
+$('p').on({
+mouseenter:function(){$(this).css('background-color','red')},
+mouseleave: function(){$(this).css('background-color','green')},
+click: function(){$(this).css('color','red')}
+})
+})
+
+-------------------------------------------------------------------------------------------------------------------------------
+$(selector).hide(speed, callback);          // the optional speed perameter spcifies the speed of the hiding/showing and take the following values :'slow', 'fast','milliseconds'
+$(selector).show(speed, callback);
+         --------or---------
+$(function(){
+$('p').click(function(){
+$('h2')toggle()
+})
+})
+
+fading query methods:-
+with jquery you can fade an element in and out of visibility
+1.fadeIn()
+2.fadeOut()
+3.fadeToggle()
+4.fadeTo()
+
+1. $(selector).fadeIn(speed, callback)    -> when we click on the button the hidden items will be come
+$(function(){
+$("button").click(function(){
+$("h1").fadeIn();
+$("h2").fadeIn('slow');
+$("h3").fadeIn(3000);
+})
+})
+
+2.fadeout()                       -> when we click on the button the item will be hidden
+
+$(function(){
+$("button").click(function(){
+$("h1").fadeOut();
+$("h2").fadeOut('slow');
+$("h3").fadeOut(3000);
+})
+})
+
+3. fadeToggle()
+
+
+$(function(){
+$("button").click(function(){
+$("h1").fadeToggle();
+$("h2").fadeToggle('slow');
+$("h3").fadeToggle(3000);
+})
+})
+
+4. fadeTo()   -> method specifies fading to a given opacity (value between 0 and 1)
+
+$(selector).fadeTo(speed, opacity, call back)
+
+
+$(function(){
+$("button").click(function(){
+$("h1").fadeTo('slow',0.15);
+$("h2").fadeTo('slow',0.4);
+$("h3").fadeTo('slow',0.7);
+})
+})
+-----------------------------------------------------------------------------------------------------
+jquery sliding methods:-
+1.slideDown()
+2.slideUp()
+3.slideToggle()
+
+1.$(selector).slideDown(speed, callback)
+
+$(function(){
+$('h1').click(function(){
+$('p').slideDown('slow')
+})
+})
+
+2.
+
+$(function(){
+$('h1').click(function(){
+$('p').slideToggle('slow')
+})
+})
+<style>
+p,h1{
+padding: 5px;
+text-align:center;
+background-color:red
+}
+p{
+padding:50px;
+display:none;
+}
+</style>
+======================================================================================================================================
+
+Git & Git hub
+
+
+Git and git hub:
+.)"version control"
+.)"collabarations"---Multiple people working on same file
+
+git                                           Git Hub
+version comtrol software                      web service           
+
+
+version control system tools:-  
+             Git, svn, mercurial, cvs
+
+features of git:-
+             diistrubted, compatable, non linear, branching, lightweight, speed, open source, reliable, secure, econamical
+What is repository:-
+       A directory or storage space where your projects can live. It can be local to a folder on your computer or it can be storage space on github or another online host 
+
+there are 2 types of repository 
+   centrol repository
+   local repository
+
+
+git config --global user.name 'haiadnok'
+git config --global user.email 'kondaiah.b@gmail.com'
+git config --list
+git config user.email
+git config user.name
+git help
+clear
+cd..
+create a local repository in my local system
+       create a folder -> open the folder -> right click -> use git bash hear
+ git init
+git remote add origin 'clone link'
+git pull origin master
+git status     --- tells you which files are added to the index and are ready to commit.
+git add        --- lets you add files to your index
+git commit     --- it refers to recording snapshots of the repository at a given time commited snapshots will never change unless done explacity
+git status    --- shows unchecked files
+git add "one.txt{name of the file}"
+git status
+git commit -m "commiting merge"
+git add -A {all files add once}
+git commit -a -m "message'
+git log
+
+
+parallel developmemnt:
+
+.) Branching   --- Main branch --> master branch will contain the all the code
+
+     branches are pointers to specific commit
+
+branches are 2 types
+ 1.local branches
+ 2. remote tacking branches
+
+create branches:
+git branch -branchname
+git checkout --mooving out from one branch to another branch
+git checkout kondaiah
+git add -A
+git commit -a -m "message"    {add inidual files} 
+ls
+git checkout master
+ls
+cat one.txt
+
+
+Merging:
+       It is the way to combine the work of different branches together
+allows to branch off, develop new feature & combine it back in
+
+
+first checkout into master branch
+git merge kondaiah
+------------------------------------------------------------
+issues:
+--------------------------------------------------------
+key terms:
+
+.)Repository
+.)commit
+.)Branch
+.)pull request
+.)merge
+.)fork
+.)pull request
+.)cd     changing directory
+.)pwd    print working directory 
+.)ls     lists of the current working directory
+.)cd ->tab button           --> no need to enter full folder name first some letters or needed
+.)ls -all
+
+
+
+
+
+
+
+
+Rebasing:
+        This is also way of combing the work between different branches
+It can be used to make a linear sequence of commits.
+
+git rebase master 
+git rebase kondaiah   ----> merge all the work of my kondaiah branch to master branch
+git checkout hexadecimal one.txt
+     
+
+
+
+
+
+
+
+=====================================================================================================================================
+Tasks: split pnr
+
+ $(function(){
+      $(document).on("click",".transformrows",function(){
+        var selected =$(".first input:checked").removeAttr('checked').parents("tr").clone().appendTo($(".second"));
+        // $(".first input:checked").parents("tr").hide();
+        $(".first input:checked").parents("tr").remove();
+        //$(".first input:checked").remove();
+        //$('input[type="checkbox"]').removeAttr('checked');
+        $('.second input').prop('checked', false);   
+      })
+    })
+
+    $(function(){
+      $(document).on("click",".delete",function(){
+     
+       //$('.first input').prop('checked', true);
+        
+        var deselected = $(".second input:checked").parents("tr").clone().appendTo($(".first"))
+        $(".second input:checked").parents("tr").remove();
+        $('.first input').prop('checked', false);
+      })
+    })
+
+    
+
+
+
+
+
+
+<table class="first">
+    <thead>
+        <tr>
+            <th>select</th>
+            <th>name</th>
+            <th>age</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><input type="checkbox"></td>
+            <td>konda</td>
+            <td>22</td>
+        </tr>
+        <tr>
+            <td><input type="checkbox"></td>
+            <td>madhu</td>
+            <td>20</td>
+        </tr>
+        <tr>
+            <td><input type="checkbox"></td>
+            <td>potti</td>
+            <td>20</td>
+        </tr>
+    </tbody>
+</table>
+<input type="button" value="Transfer selected rows" class="transformrows" />
+<hr>
+<table class="second">
+    <tr>
+        <th>select</th>
+        <th>name</th>
+        <th>age</th>
+    </tr>
+    <tr>
+
+    </tr>
+</table>
+<input type="button" class="delete" value="delete selected rows" />
+<!-- <input type="button" class="delete" value="delete selected rows" ng-disabled="disable" [disabled]="(count >= 2)? true: false " /> -->
+
+<button class="click">click me</button>
+[disabled]="(testVariable1 != 0 || testVariable2!=0)? true:false"
+<button *ngIf="onetwo">click</button>
+<button [disabled]="exampleone">click</button>
+<button (click)="pnrSplitOpen()" [disabled]="ta.childNodes.length <=0? true:false">confirm</button>
+
+--------------------------------------------------------------------------------------------------------------
+searchbar:-
+
+add(e) {
+    console.log(this.slength.length)
+    this.se.push(e.target.value);
+    localStorage.setItem('searchValue', JSON.stringify(this.se));
+    this.pse = JSON.parse(localStorage.getItem('searchValue'));
+    let list = this.pse.filter((item, index) => {
+      return item.toLowerCase().includes(e.target.value);
+    });
+    this.searchlist = list;
+    if (this.searchlist.length > 0 && this.slength.length > 0) {
+      this.ddown = true;
+    } else {
+      this.ddown = false;
+    }
+  }
+
+
+<input type="text" (keyup.enter)="add($event)" (input)="slength=$event.target.value" #sear>
+<label>
+    <select *ngIf="ddown">
+        <option *ngFor="let ps of searchlist">{{ps}}</option>
+    </select>
+</label>
+--------------------------------------------------------------------------------------------------------------------------------------
+dubai trade service:
+
+    return this.http.get<any>(`../assets/components-json/${fileName}.json`);
+
+
+
+
+
+
